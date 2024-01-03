@@ -12,7 +12,7 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String deptName;
     private String deptDesc;
     @OneToMany

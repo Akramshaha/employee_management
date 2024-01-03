@@ -22,7 +22,7 @@ public class EmployeeDTO {
     @Enumerated(EnumType.STRING)
     MaritalStatus maritalStatus;
     private LocalDate dateOfBirth;
-    private int departmentId;
+    private Integer departmentId;
 
     @Enumerated(EnumType.STRING)
     Designation designation;
