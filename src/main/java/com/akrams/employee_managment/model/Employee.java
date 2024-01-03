@@ -35,7 +35,7 @@ public class Employee {
     @Column(name = "dob")
     private LocalDate dateOfBirth;
 
-    @OneToOne
+    @ManyToOne
     private Department department;
 
     @Enumerated(EnumType.STRING)

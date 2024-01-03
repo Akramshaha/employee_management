@@ -13,7 +13,7 @@ public class EmployeeIdSequence implements IdentifierGenerator {
     private int sequenceValue = INITIAL_VALUE;
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) {
-        return PREFIX + getNextSequenceValue();
+        return getNextSequenceValue();
     }
 
     private synchronized String getNextSequenceValue() {
