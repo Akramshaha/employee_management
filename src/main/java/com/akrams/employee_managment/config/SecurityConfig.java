@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -49,6 +50,7 @@ public class SecurityConfig {
     .csrf(csrf -> csrf 
       .disable()
     )
+            .cors(cors -> cors.disable())
     .sessionManagement(session -> session
       .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     )
@@ -62,4 +64,6 @@ public class SecurityConfig {
 
     return http.build();
   }
+
+
 }

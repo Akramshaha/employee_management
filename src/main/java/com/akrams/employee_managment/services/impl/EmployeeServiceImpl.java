@@ -1,6 +1,7 @@
 package com.akrams.employee_managment.services.impl;
 
 import com.akrams.employee_managment.dto.EmployeeDTO;
+import com.akrams.employee_managment.dto.EmployeeFormDTO;
 import com.akrams.employee_managment.model.Department;
 import com.akrams.employee_managment.model.Employee;
 import com.akrams.employee_managment.repository.DepartmentRepository;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -32,18 +34,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDTO> employeeDTOList = employeeRepository.findAll().stream().map(
                 (e) -> modelMapper.map(e, EmployeeDTO.class)
         ).collect(Collectors.toList());
-
+        employeeDTOList.stream().forEach((e)-> System.out.println(e.getId()));
         return employeeDTOList;
     }
 
     @Override
     public EmployeeDTO addNewEmployee(EmployeeDTO employeeDTO) {
+        log.info("employeeDTO :: {}",employeeDTO);
         Employee employee;
         if (employeeDTO.getId() !=null){
             employee = setEmployeeUpdateValidation(employeeDTO);
         }else {
             employee = modelMapper.map(employeeDTO, Employee.class);
         }
+/*
+
+        int sequenceValue = getNextIntValueFromEmpTable();
+        String nextId=String.format("%s%08d", "P", sequenceValue++);
+        employee.setId(nextId);
+        log.info("employee ::  {}",employee);*/
         return modelMapper.map(employeeRepository.save(employee), EmployeeDTO.class);
     }
 
@@ -105,17 +114,34 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Department> getAllDept() {
+        return departmentRepository.findAll();
+    }
+
+    @Override
+    public EmployeeFormDTO getAllEmployeeFormData() {
+        EmployeeFormDTO employeeFormDTO = new EmployeeFormDTO();
+        employeeFormDTO.setDepartmentList(departmentRepository.findAll());
+        return employeeFormDTO;
+    }
+
+    @Override
+    public EmployeeDTO getEditEmployee(String id) {
+        return modelMapper.map(employeeRepository.findById(id).get(), EmployeeDTO.class);
+    }
+
     public Employee setEmployeeUpdateValidation(EmployeeDTO employeeDTO){
         Employee employee = employeeRepository.findById(employeeDTO.getId()).get();
 
-        if(!employeeDTO.getAddress().isEmpty() && !employee.getAddress().equalsIgnoreCase(employeeDTO.getAddress())){
+        if(!StringUtils.hasLength(employeeDTO.getAddress()) && !employee.getAddress().equalsIgnoreCase(employeeDTO.getAddress())){
             employee.setAddress(employeeDTO.getAddress());
         }
-        if(!employeeDTO.getDesignation().name().isEmpty()
+        if(employeeDTO.getDesignation().name() != null
                 && !employee.getDesignation().name().equalsIgnoreCase(employeeDTO.getDesignation().name())){
             employee.setDesignation(employeeDTO.getDesignation());
         }
-        if(!employeeDTO.getMaritalStatus().name().isEmpty()
+        if(employeeDTO.getMaritalStatus().name() != null
                 && !employee.getMaritalStatus().name().equalsIgnoreCase(employeeDTO.getMaritalStatus().name())){
             employee.setMaritalStatus(employeeDTO.getMaritalStatus());
         }
@@ -124,14 +150,24 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setDepartment(dept);
         }
         if(employee.getGender().name().equalsIgnoreCase(Constants.female)){
-            if(!employeeDTO.getFirstName().isEmpty()){
+            if(!StringUtils.hasLength(employeeDTO.getFirstName())){
                 employee.setFirstName(employeeDTO.getFirstName());
             }
-            if(!employeeDTO.getLastName().isEmpty()){
+            if(!StringUtils.hasLength(employeeDTO.getLastName())){
                 employee.setLastName(employeeDTO.getLastName());
             }
         }
         return employee;
     }
+
+    /*public int getNextIntValueFromEmpTable(){
+        Employee emp = employeeRepository.findOneOrderByIdDesc().get();
+        System.out.println(emp.getId());
+        String str = emp.getId();
+
+        int INITIAL_VALUE = Integer.parseInt(str.substring(1,str.length()));
+        System.out.println(INITIAL_VALUE);
+        return INITIAL_VALUE;
+    }*/
 
 }

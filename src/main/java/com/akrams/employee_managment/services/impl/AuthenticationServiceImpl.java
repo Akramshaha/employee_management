@@ -1,11 +1,13 @@
 package com.akrams.employee_managment.services.impl;
 
 import com.akrams.employee_managment.dto.SignInRequest;
+import com.akrams.employee_managment.dto.UserDTO;
 import com.akrams.employee_managment.model.User;
 import com.akrams.employee_managment.repository.UserRepository;
 import com.akrams.employee_managment.services.AuthenticationService;
 import com.akrams.employee_managment.services.JwtService;
 import com.akrams.employee_managment.services.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -31,6 +33,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public ResponseEntity<?> signin(SignInRequest request) {
         try {
@@ -38,13 +43,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
             User user = (User) authenticate.getPrincipal();
 //                    .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
+            UserDTO userDTO = modelMapper.map(user, UserDTO.class);
             String jwt = jwtService.generateToken(user);
+            userDTO.setToken(jwt);
             return ResponseEntity.ok()
                     .header(
                             HttpHeaders.AUTHORIZATION,
                             jwt
                     )
-                    .body(user);
+                    .body(userDTO);
         }catch (BadCredentialsException ex) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

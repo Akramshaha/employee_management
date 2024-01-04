@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Employee {
 
     @Id
-    @GeneratedValue(generator = "employee-id-sequence")
+    @GeneratedValue(strategy = GenerationType.AUTO,generator = "employee-id-sequence")
     @GenericGenerator(
             name = "employee-id-sequence",
             strategy = "com.akrams.employee_managment.utils.EmployeeIdSequence"

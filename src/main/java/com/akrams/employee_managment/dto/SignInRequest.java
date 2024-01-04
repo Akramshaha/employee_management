@@ -1,14 +1,12 @@
 package com.akrams.employee_managment.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 public class SignInRequest {
   String email;
   String password;

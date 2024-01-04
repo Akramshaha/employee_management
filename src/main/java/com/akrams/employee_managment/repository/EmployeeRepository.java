@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
@@ -15,4 +16,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     List<Employee> findEmployeeByCriteria(String query);
 
     List<Employee> findAllByFirstNameContainsAndDateOfBirthGreaterThanEqualAndDateOfBirthLessThanEqualAndAgeGreaterThanEqualAndAgeLessThanEqual(String name, LocalDate queryStartDate, LocalDate queryEndDate, Integer ageStart, Integer ageEnd);
+
+//    Optional<Employee> findOneOrderByIdDesc();
 }
