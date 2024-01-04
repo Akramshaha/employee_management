@@ -28,7 +28,7 @@ public class SecurityConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static final String[] WHITE_LIST_URL = {"/employee/**","/api/v1/signin", "/swagger-ui/**"};
+    private static final String[] WHITE_LIST_URL = {"/api/employee/**","/v3/api-docs/**", "/swagger-ui/**"};
 
   @Bean
   public AuthenticationProvider authenticationProvider() {

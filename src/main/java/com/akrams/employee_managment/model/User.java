@@ -1,5 +1,6 @@
 package com.akrams.employee_managment.model;
 
+import com.akrams.employee_managment.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
