@@ -38,7 +38,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO addNewEmployee(EmployeeDTO employeeDTO) {
-        Employee employee = setEmployeeUpdateValidation(employeeDTO);
+        Employee employee;
+        if (employeeDTO.getId() !=null){
+            employee = setEmployeeUpdateValidation(employeeDTO);
+        }else {
+            employee = modelMapper.map(employeeDTO, Employee.class);
+        }
         return modelMapper.map(employeeRepository.save(employee), EmployeeDTO.class);
     }
 
@@ -128,4 +133,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return employee;
     }
+
 }
