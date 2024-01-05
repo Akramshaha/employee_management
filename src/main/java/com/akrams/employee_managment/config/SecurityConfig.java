@@ -55,8 +55,6 @@ public class SecurityConfig {
       .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     )
     .authorizeHttpRequests(authorize -> authorize
-//      .requestMatchers(HttpMethod.POST, "/api/v1/signup", "/api/v1/signin").permitAll()
-//      .requestMatchers(HttpMethod.GET, "/api/v1/test/**").permitAll()
         .requestMatchers(WHITE_LIST_URL).permitAll()
         .anyRequest().authenticated()
     )

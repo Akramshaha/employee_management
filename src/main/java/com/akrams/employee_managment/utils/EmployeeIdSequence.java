@@ -24,12 +24,4 @@ public class EmployeeIdSequence implements IdentifierGenerator {
     private synchronized String getNextSequenceValue() {
         return String.format("%s%08d", PREFIX, sequenceValue++);
     }
-
-//    public int getNextIntValueFromEmpTable(){
-//        String str = employeeRepository.findOneIdOrderByIdDesc();
-//        System.out.println(str);
-//
-//        int INITIAL_VALUE = Integer.parseInt(str.substring(1,str.length()));
-//        return INITIAL_VALUE;
-//    }
 }

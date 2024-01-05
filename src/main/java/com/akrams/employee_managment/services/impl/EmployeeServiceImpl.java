@@ -72,43 +72,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<Employee> employeeList = employeeRepository.findAllByFirstNameContainsAndDateOfBirthGreaterThanEqualAndDateOfBirthLessThanEqualAndAgeGreaterThanEqualAndAgeLessThanEqual(name, queryStartDate, queryEndDate, ageStartLimit, ageEndLimit);
 
-
-//        log.info("In getEmployee");
-//        /*List<EmployeeDTO> employeeDTOList = employeeRepository.findAll().stream().map(
-//                (e) -> modelMapper.map(e, EmployeeDTO.class)
-//        ).collect(Collectors.toList());*/
-//
-//        StringBuffer sb = new StringBuffer("");
-//        //sb.append("SELECT * FROM Employee e WHERE 1=1");
-//
-//        //Check EmployeeId Filter
-//        if (StringUtils.hasLength(empId)) {
-//            sb.append(" AND e.id=" + empId);
-//        }
-//
-//        //Name Filter
-//        if (StringUtils.hasLength(name)) {
-//            sb.append(" AND e.firstName LIKE '%" + name + "%'");
-//            sb.append(" AND e.lastName LIKE '%" + name + "%'");
-//        }
-//
-//        //Age Filter
-//        /*if(employeeSearchDTO.getFromRange() != null){
-//            sb.append(" AND e.age >="+employeeSearchDTO.getFromRange());
-//        }
-//        if(employeeSearchDTO.getToRange() != null){
-//            sb.append(" AND e.age <="+employeeSearchDTO.getToRange());
-//        }*/
-//
-//        //Birth Year Filter
-//        if (StringUtils.hasLength(year)) {
-//            sb.append(" AND YEAR(e.dob) =" + year);
-//        }
-//        System.out.println(sb.toString());
-//        List<EmployeeDTO> employeeDTOList = employeeRepository.findEmployeeByCriteria(sb.toString()).stream().map(
-//                (e) -> modelMapper.map(e, EmployeeDTO.class)
-//        ).collect(Collectors.toList());
-
         return employeeList.stream()
                 .map((e) -> modelMapper.map(e, EmployeeDTO.class))
                 .collect(Collectors.toList());
@@ -159,15 +122,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return employee;
     }
-
-    /*public int getNextIntValueFromEmpTable(){
-        Employee emp = employeeRepository.findOneOrderByIdDesc().get();
-        System.out.println(emp.getId());
-        String str = emp.getId();
-
-        int INITIAL_VALUE = Integer.parseInt(str.substring(1,str.length()));
-        System.out.println(INITIAL_VALUE);
-        return INITIAL_VALUE;
-    }*/
 
 }
