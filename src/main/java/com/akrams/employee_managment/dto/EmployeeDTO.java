@@ -3,6 +3,7 @@ package com.akrams.employee_managment.dto;
 import com.akrams.employee_managment.enums.Designation;
 import com.akrams.employee_managment.enums.Gender;
 import com.akrams.employee_managment.enums.MaritalStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class EmployeeDTO {
 
     @Enumerated(EnumType.STRING)
     MaritalStatus maritalStatus;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
     private Integer departmentId;
 
